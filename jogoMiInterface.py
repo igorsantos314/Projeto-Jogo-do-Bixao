@@ -91,6 +91,7 @@ def desistir():
 
     else:
         mensagemEndGame()
+        janela.destroy()
         
 btDesistir = Button(text='Prefiro parar AGORA !', fg='white', background='red', font='Courier 12 bold', command=desistir)
 btDesistir.place(x=20,y=550)

@@ -23,12 +23,35 @@ class interface:
 		self.lista.clear()
 		self.getListaDeNomes()
 
+		listaTuplas = []
+		guardaPosicao = 0
+		numeros = ''
+		nomeJogador = ''
+
+		for i in self.lista:
+			for pos,j in enumerate(i):
+				if j == ' ':
+					guardaPosicao = pos
+					break
+								
+			for k in range(0,guardaPosicao):
+				numeros += i[k]
+
+			for letra in range(guardaPosicao+1, len(i)):
+				nomeJogador += i[letra]
+				
+			listaTuplas.append((float(numeros),nomeJogador))
+
+			guardaPosicao = 0
+			numeros = ''	
+			nomeJogador = ''	
+
 		#ordena a lista de forma descrescente
-		novaLista = sorted(self.lista, reverse=True)
+		novaLista = sorted(listaTuplas, reverse=True)
 
 		for pos,i in enumerate(novaLista):
-			if pos < 11:
-				listaNomes += '{}\n'.format(i)
+			if pos < 10:
+				listaNomes += '{}° - {}    \n      {}\n\n'.format(pos+1, i[1].replace('\n',''), i[0])
 
 		return listaNomes
 
