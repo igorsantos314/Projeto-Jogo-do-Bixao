@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint
 from interfaceConexao import *
-from interfacePictureImage import *
+#from interfacePictureImage import *
 import os
 
 janela = Tk()
@@ -13,18 +13,17 @@ janela['bg'] = '#4F4F4F'
 lista = []
 
 #criar um objeto do tipo picture
-imagem = picture()
+#imagem = picture()
 
 #objeto do tipo interface
 inter = interface()
-status = [False]
 
 def listaDeNomes():
 	inter.getListaDeNomes()
 
 def exibirListaNomes():
-        #Exibe a lista de Nomes
-	messagebox.showinfo('',inter.exibirNomes())
+    #Exibe a lista de Nomes
+	messagebox.showinfo('RANKING',inter.exibirNomes())
 
 def getTexto():
 	nome = tbNomeNovo.get().upper()
@@ -33,15 +32,17 @@ def getTexto():
 		messagebox.showinfo('','Nome já Existe !')
 
 	#Verifica se o nome existe e garante que o USER só possa clicar uma vez por execução	
-	elif inter.verificaNome(nome) == False and status[0] != True:
+	elif inter.verificaNome(nome) == False:
+		#salvar o nome caso não exista
 		salvarNovoNome(nome)
+
 		messagebox.showinfo('','Bem Vindo ao Jogo {}!'.format(nome))
-		os.system('python jogoMiInterface.py')
+		os.system('python3 jogoMiInterface.py')
+
+		#apaga todo o texto do textBox
 		tbNomeNovo.delete(0, last=END)
-		status[0] = True
 		
 def salvarNovoNome(nome):
-	pontos = randint(100,500)
 	inter.setNome(nome)
 
 
@@ -64,8 +65,8 @@ btAdicionar.place(x=150,y=220)
 btVerRank = Button(text='Ver Ranking', command=exibirListaNomes, font='Courier 12 bold', background='black', fg='white')
 btVerRank.place(x=270,y=350)
 
-btVerRank = Button(text='Tirar Foto', command=lambda: imagem.capturaExibe(), font='Courier 12 bold', background='black', fg='white')
-btVerRank.place(x=20,y=350)
+#btVerRank = Button(text='Tirar Foto', command=lambda: imagem.capturaExibe(), font='Courier 12 bold', background='black', fg='white')
+#btVerRank.place(x=20,y=350)
 
 #exibirListaNomes()
 janela.mainloop()

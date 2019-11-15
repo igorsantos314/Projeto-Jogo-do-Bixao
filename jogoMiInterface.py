@@ -41,6 +41,7 @@ lblPergunta = Label(text='0', font='Courier 12 bold', fg='yellow', bg='#696969')
 lblPergunta.pack()
 #lblPergunta.place(x=10,y=10)
 
+#LAbels de Alternativas
 lblA = Label(text='', bg='#696969', font='Courier 22 bold')
 lblA.place(x=120,y=120)
 
@@ -152,8 +153,8 @@ def getPerguntaR():
         elemento = choice(lista)
         lista.remove(elemento)
         
-        arqPerg = open(r'C:\\Users\\Igor Santos\\Documents\\PeR\\Pergunta{}.txt'.format(str(elemento)),'r', encoding='latin-1')
-        #arqPerg = open('//home//igor//Documentos//PYTHON//ProjetoJogo//PeR//Pergunta1.txt','r')
+        #arqPerg = open(r'C:\\Users\\Igor Santos\\Documents\\PeR\\Pergunta{}.txt'.format(str(elemento)),'r', encoding='latin-1')
+        arqPerg = open('Pergunta{}.txt'.format(str(elemento)),'r', encoding='latin-1')
 
         for pos,i in enumerate(arqPerg):
             #envia a pergunta
@@ -195,7 +196,6 @@ def mensagemEndGame():
     #Atributos
     dinheiro = str(float(lblSaldo['text']) / 2)
     acertos = listaAcertosErros[0]
-    erros = listaAcertosErros[1]
     
     #Quando o jogo acaba
     mixer.music.stop()
