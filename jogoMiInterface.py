@@ -26,7 +26,7 @@ for i in arqNomeTemp:
     nomeUser = i
 
 # ----------------------------------------- MENSAGEM DE INICIO PARA O USER -----------------------------------------
-messagebox.showinfo('BEM VINDO AO SHOW DO BIXÃO','OLÁ,{}\nVOCÊ TERÁ QUE RESPONDER PERGUNTAS DE ASSUNTOS VARIADOS:\n\nACERTO VALE A QUANTIDADE DE ACERTOS VEZES 1000\n\n SEU SALDO: R$ 0,00\n\n\n<.: BOA SORTE :.>'.format(nomeUser))
+messagebox.showinfo('BEM VINDO AO SHOW DO BIXÃO','OLÁ,{}\nVOCÊ TERÁ QUE RESPONDER PERGUNTAS DE ASSUNTOS VARIADOS:\n\nCADA ACERTO VALERÁ, QUANTIDADE DE QUESTÕES CORRETAS VEZES 1000\n\n SEU SALDO: R$ 1000,00\n\n\n<.: BOA SORTE :.>'.format(nomeUser))
 
 #chamar a musica de fundo
 def Musica():
