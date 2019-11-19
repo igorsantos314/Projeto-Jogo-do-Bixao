@@ -63,7 +63,7 @@ btAdicionar = Button(text='Iniciar Jogo', command=getTexto, background='black', 
 btAdicionar.place(x=150,y=220)
 
 btVerRank = Button(text='Ver Ranking', command=exibirListaNomes, font='Courier 12 bold', background='black', fg='white')
-btVerRank.place(x=270,y=350)
+btVerRank.place(x=240,y=350)
 
 #btVerRank = Button(text='Tirar Foto', command=lambda: imagem.capturaExibe(), font='Courier 12 bold', background='black', fg='white')
 #btVerRank.place(x=20,y=350)

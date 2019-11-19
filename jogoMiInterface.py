@@ -3,6 +3,8 @@ from random import *
 from tkinter import messagebox
 from pygame import mixer
 from interfaceConexao import *
+import _thread as th
+import time
 
 inter = interface()
 
@@ -22,11 +24,15 @@ saldoAleatorio = float(randint(99,150))
 arqNomeTemp = open('nomeTemp.txt','r')
 nomeUser = ''
 
+#Verifica se o usuario continua jogando
+status = True
+
+#adiciona o nome de usuario
 for i in arqNomeTemp:
     nomeUser = i
 
 # ----------------------------------------- MENSAGEM DE INICIO PARA O USER -----------------------------------------
-messagebox.showinfo('BEM VINDO AO SHOW DO BIXÃO','OLÁ,{}\nVOCÊ TERÁ QUE RESPONDER PERGUNTAS DE ASSUNTOS VARIADOS:\n\nCADA ACERTO VALERÁ, QUANTIDADE DE QUESTÕES CORRETAS VEZES 1000\n\n SEU SALDO: R$ 1000,00\n\n\n<.: BOA SORTE :.>'.format(nomeUser))
+messagebox.showinfo('BEM VINDO AO SHOW DO BIXÃO','OLÁ,{}\nVOCÊ TERÁ QUE RESPONDER PERGUNTAS DE ASSUNTOS VARIADOS:\n\nTERÁ O TEMPO DE 15seg PARA CADA QUESTÃO\n\nCADA ACERTO VALERÁ, QUANTIDADE DE QUESTÕES CORRETAS VEZES 1000\n\n SEU SALDO: R$ 1000,00\n\n\n<.: BOA SORTE :.>'.format(nomeUser))
 
 #chamar a musica de fundo
 def Musica():
@@ -36,10 +42,20 @@ def Musica():
 
 Musica()
 
-#Labels
+# ------------------------ Labels ------------------------
+#Label de Pergunta
 lblPergunta = Label(text='0', font='Courier 12 bold', fg='yellow', bg='#696969')
 lblPergunta.pack()
-#lblPergunta.place(x=10,y=10)
+
+#Label de Cronometro
+lblTempo = Label(text='Tempo: ', font='Courier 12 bold', bg='#696969')
+lblTempo.place(x=400,y=540)
+
+lblSeg = Label(text='0', font='Courier 12 bold', bg='#696969', fg='blue')
+lblSeg.place(x=470,y=540)
+
+lblProgs = Label(text='', bg='Cyan', fg='blue', font='Arial 10 bold')
+lblProgs.place(x=400, y=560)
 
 #LAbels de Alternativas
 lblA = Label(text='', bg='#696969', font='Courier 22 bold')
@@ -85,7 +101,6 @@ btD.place(x=50,y=365)
 
 #Para agora
 def desistir():
-    
     if str(saldoAleatorio) == lblSaldo['text']:
         messagebox.showerror('','SEU SALDO TEM QUE SER MAIOR OU MENOR AO INICIAL, VAMOS TER CONTINUAR .... :)')
 
@@ -102,6 +117,8 @@ def verficarResposta(rUser):
     janelaAtiva = True
     
     if rUser == RespotaCorreta[-1]:
+        #zera o cronometro
+        redefinir()
         messagebox.showinfo('BEM DEMAIS :0','Parabéns Você Acertou :)')
         
         #Soma a quantidade de acertos a posicao 0 da lista
@@ -127,13 +144,7 @@ def verficarResposta(rUser):
 
         #Destruir Janela
         janela.destroy()
-        
-        #Soma a quantidade de erros a posicao 1 da lista
-        #listaAcertosErros[1] += 1
 
-        #chamar musica de fundo
-        #Musica()
-    
     #Caso a janela inda exista, Pegar uma nova Pergunta
     if janelaAtiva:
         getPerguntaR()
@@ -179,7 +190,6 @@ def getPerguntaR():
         arqPerg.close()
 
 def setSaldo(status):
-    
     novoSaldo = ''
     saldoAntigo = lblSaldo['text']
     
@@ -194,9 +204,19 @@ def setSaldo(status):
     lblSaldo['text'] = novoSaldo
     
 def mensagemEndGame():
+    global status
+    status = False
+
     #Atributos
-    dinheiro = str(float(lblSaldo['text']) / 2)
+    dinheiro = 0
     acertos = listaAcertosErros[0]
+
+    if len(lista) == 0:
+        dinheiro = str(float(lblSaldo['text']))
+
+    else:
+        dinheiro = str(float(lblSaldo['text']) / 2)
+        
     
     #Quando o jogo acaba
     mixer.music.stop()
@@ -206,6 +226,41 @@ def mensagemEndGame():
     #adicionarUsuario ao Rank
     inter.setRanking(nomeUser, dinheiro)
 
+def tempo():
+    #cronometro de 15seg para reponder uma pergunta
+    while True:
+        time.sleep(1)
+        segAtual = lblSeg['text']
+        segNovo = int(segAtual) + 1
+        lblSeg['text'] = str(segNovo)
+
+        lblProgs['text'] += '|'
+
+        #Mudar a barra para laranja e marron
+        if segNovo == 5:
+            lblProgs['fg'] = 'orange'
+            lblProgs['bg'] = 'brown'
+
+        #Mudar a barra para preta e vermelha
+        if segNovo == 10:
+            lblProgs['fg'] = 'black'
+            lblProgs['bg'] = 'red'
+
+        #para quando chega em 15
+        if segNovo > 14:
+            break
+    
+    #caso o usuario ainda não tenha perdido e o tempo acabou
+    if status == True:
+        mensagemEndGame()
+        janela.destroy()
+
+def redefinir():
+    lblSeg['text'] = '0'
+    lblProgs['text'] = ''
+
+#inicia Threads com tempo Limitado
+th.start_new_thread(tempo, ())
 
 #inicia com a primeira Pergunta
 getPerguntaR()
