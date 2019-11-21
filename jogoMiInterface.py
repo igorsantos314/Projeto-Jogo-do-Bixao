@@ -57,6 +57,13 @@ lblSeg.place(x=470,y=540)
 lblProgs = Label(text='', bg='Cyan', fg='blue', font='Arial 10 bold')
 lblProgs.place(x=400, y=560)
 
+#Label quantidade de perguntas corretas
+lblQuantidadePerguntas = Label(text='Perguntas Corretas:', font='Courier 12 bold', bg='#696969')
+lblQuantidadePerguntas.place(x=400,y=490)
+
+lblBarraPerg = Label(text='', font='Courier 12 bold', bg='#696969')
+lblBarraPerg.place(x=400,y=510)
+
 #LAbels de Alternativas
 lblA = Label(text='', bg='#696969', font='Courier 22 bold')
 lblA.place(x=120,y=120)
@@ -123,6 +130,9 @@ def verficarResposta(rUser):
         
         #Soma a quantidade de acertos a posicao 0 da lista
         listaAcertosErros[0] += 1
+
+        #almenta a barra de progresso
+        barraProgresso()
 
         #modifica o saldo
         setSaldo(True)
@@ -234,7 +244,7 @@ def tempo():
         segNovo = int(segAtual) + 1
         lblSeg['text'] = str(segNovo)
 
-        lblProgs['text'] += '|'
+        lblProgs['text'] += ' '
 
         #Mudar a barra para laranja e marron
         if segNovo == 5:
@@ -255,7 +265,13 @@ def tempo():
         mensagemEndGame()
         janela.destroy()
 
+def barraProgresso():
+    #modifica a cor e acrescenta um barra
+    lblBarraPerg['bg'] = 'cyan'
+    lblBarraPerg['text'] += ' '
+
 def redefinir():
+    #Zera a Barra de Progresso
     lblSeg['text'] = '0'
     lblProgs['text'] = ''
 
