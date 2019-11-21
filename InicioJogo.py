@@ -39,8 +39,12 @@ def getTexto():
 		messagebox.showinfo('','Bem Vindo ao Jogo {}!'.format(nome))
 		os.system('python3 jogoMiInterface.py')
 
-		#apaga todo o texto do textBox
-		tbNomeNovo.delete(0, last=END)
+		if messagebox.askquestion('','Deseja Continuar?') == 'no':
+			janela.destroy()
+
+		else:
+			#apaga todo o texto do textBox
+			tbNomeNovo.delete(0, last=END)
 		
 def salvarNovoNome(nome):
 	inter.setNome(nome)
